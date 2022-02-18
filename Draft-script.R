@@ -35,4 +35,4 @@ meanstdData <- select(combinedata, contains("-mean") | contains("-std") | matche
 meanstdData <- as_tibble(meanstdData)
 meanstdData <- group_by(meanstdData, activity, subject)
 
-test <- summarise(meanstdData, mean(meanstdData, .groups = "keep"))
+test <- summarise(meanstdData, mean(meanstdData$`tBodyAcc-mean()-X`), .groups = "keep")
