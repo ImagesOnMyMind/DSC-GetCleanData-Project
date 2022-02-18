@@ -34,3 +34,5 @@ colnames(combinedata) <- columnames$V2
 meanstdData <- select(combinedata, contains("-mean") | contains("-std") | matches("datatype") | contains("activity") | contains("subject"))
 meanstdData <- as_tibble(meanstdData)
 meanstdData <- group_by(meanstdData, activity, subject)
+
+test <- summarise(meanstdData, mean(meanstdData, .groups = "keep"))
