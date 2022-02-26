@@ -35,4 +35,22 @@ meanstdData <- select(combinedata, contains("-mean") | contains("-std") | matche
 meanstdData <- as_tibble(meanstdData)
 meanstdData <- group_by(meanstdData, activity, subject)
 
-test <- summarise(meanstdData, mean(`tBodyAcc-mean()-X`))
+## Remove column "datatype" and summarise all
+meanstdData %>% subset(select = -datatype) %>% summarise_all(mean) -> meanData
+
+
+## Trial bits, do not use
+meanstdData <- subset(meanstdData, select = -datatype)
+meanData <- summarise_all(meanstdData, mean)
+
+colnames(meanstdData) <- gsub("\\(\\)", "", colnames(meanstdData))  ## remove ()
+colnames(meanstdData) <- gsub("\\-", "", colnames(meanstdData))     ## remove -
+
+summarise(meanstdData, mean(`tBodyAcc-mean()-X`))
+
+colnumber <- length(colnames(meanstdData))-3
+length(colnames(meanstdData[1:colnumber]))
+colnames(meanstdData[1:colnumber])
+
+meancols <- colnames(meanstdData[1:colnumber])
+test <- summarise(meanstdData, mean(meancols[1]))
